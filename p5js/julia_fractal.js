@@ -1,9 +1,9 @@
-canvasSize = 1920
+canvasSize = 800
 
 function setup() {
     createCanvas(canvasSize, canvasSize);
     background("ffffff");
-    julia_fractal(1,.1); //in 
+    julia_fractal(1,.1);
 }
 
 function draw() {
@@ -18,7 +18,7 @@ function julia_fractal(cx, cy) {
     finalImage.loadPixels();
     
     R_esc = 15.; // higher radius - more curves
-    i_max = 15;
+    i_max = 4; //
     for (var y = 0; y < height; y++) {
         for (var x = 0; x < width; x++) {
 
@@ -27,7 +27,7 @@ function julia_fractal(cx, cy) {
             i = 0;
 
             while (i < i_max) {
-                xtemp = zx * zx - zy * zy 
+                xtemp = zx * zx - zy * zy //
                 zy = (2 * zx * zy) + cy
                 zx = xtemp + cx
                 i++
@@ -36,10 +36,12 @@ function julia_fractal(cx, cy) {
                     break; // break is mandatory
                 }
 
+            }
+            //Update the image with the calculated pixels
         }
-        //Update the image with the calculated pixels
-        finalImage.updatePixels();
-        //Display the image
-        image(finalImage, 0, 0);
     }
+    finalImage.updatePixels();
+    //Display the image
+    image(finalImage, 0, 0);
+
 }
