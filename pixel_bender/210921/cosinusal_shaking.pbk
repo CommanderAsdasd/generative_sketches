@@ -1,0 +1,44 @@
+<languageVersion : 1.0;>
+
+kernel untitled
+<   namespace : "Your Namespace";
+    vendor : "Your Vendor";
+    version : 1;
+>
+
+   
+
+{
+ parameter float shift
+    <       
+        minValue:float(0.);
+        maxValue:float(1920.); 
+        defaultValue:float(0.);
+    >;
+     parameter float multiply
+    <       
+        minValue:float(0.);
+        maxValue:float(5.); 
+        defaultValue:float(1.);
+    >;
+         parameter float coef
+    <       
+        minValue:float(0.);
+        maxValue:float(5.); 
+        defaultValue:float(1.);
+    >;
+    input image4 source;
+    output pixel4 result;
+
+            void evaluatePixel()
+            {
+
+                float2 coord = outCoord();
+float2 hOffset = float2(sin(pixelSize(source).y), (sin(shift)/(-cos(shift)))*multiply);
+pixel4 left = sampleNearest(source, coord - hOffset);
+pixel4 center= sampleNearest(source, coord);
+pixel4 right = sampleNearest(source, coord + hOffset);
+pixel4 some = sampleNearest(source, coord - cos(hOffset));
+result = (left + center + right / some) /  coef * 1.;
+            }
+}

@@ -1,0 +1,19 @@
+<languageVersion : 1.0;>
+
+kernel untitled
+<   namespace : "Your Namespace";
+    vendor : "Your Vendor";
+    version : 1; >
+
+{
+    input image4 src;
+    output pixel4 dst;
+    parameter float time;
+
+    void evaluatePixel()
+    {
+    float4 inputColor = sampleNearest(src, outCoord()); //sampling is necessary to convert sampled image to pixel values
+    dst.rgb = float3(sin(time)) - inputColor.rgb;
+    dst.a = 1. ;
+    }
+}

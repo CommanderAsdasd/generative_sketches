@@ -1,0 +1,56 @@
+//difference between julia and mandelbrot that julia iterates pos (Z), and mandelbrot iterates C-param
+
+float julia(float2 pos, float2 c, float R_esc, int i_max) {
+
+	//per-pixel cycle
+
+//	float R_esc = 3.9;	
+	float color;
+	//int i_max = 40;
+	
+	for(int i = 0; i < i_max; i++ ) {
+	
+    float xtemp = (pos.x * pos.x - pos.y * pos.y);
+		pos.y = 2. * pos.x * pos.y + c.y;
+		pos.x = xtemp + c.x;
+		
+		if(sqrt(pos.x * pos.x + pos.y * pos.y) > R_esc * R_esc) {
+			break;
+		}
+    
+		int val = i;
+		color = float(val);
+	}
+	
+	return color;
+}
+
+
+float mandelbrot(float2 pos, float2 c, float R_esc, int i_max) {
+
+	//per-pixel cycle
+
+//	float R_esc = 3.9;	
+	float color;
+	//int i_max = 40;
+	
+	for(int i = 0; i < i_max; i++ ) {
+	
+    float ctemp = (c.x * c.x - c.y * c.y);
+		c.y = 2. * c.x * c.y + pos.y;
+		c.x = ctemp + pos.x;
+		
+		if(sqrt(c.x * c.x + c.y * c.y) > R_esc * R_esc) {
+			break;
+		}
+    
+		int val = i;
+		color = float(val);
+	}
+	
+	return color;
+}
+
+
+
+

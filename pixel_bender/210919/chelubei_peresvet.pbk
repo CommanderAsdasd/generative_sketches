@@ -1,0 +1,30 @@
+<languageVersion : 1.0;>
+
+kernel untitled
+<   namespace : "Your Namespace";
+    vendor : "Your Vendor";
+    version : 1;
+    
+    
+    
+>
+
+
+{
+    input image4 src;
+    output pixel4 dst;
+    parameter float resolution
+    <       
+        minValue:float(0.);
+        maxValue:float(1920.); 
+        defaultValue:float(1000.);
+    >;
+    void
+    evaluatePixel()
+    
+    {
+     
+        float2 uv = (outCoord()/resolution);
+        dst = sampleLinear(src,outCoord()) * float4(uv.x);
+    }
+}

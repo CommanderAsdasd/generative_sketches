@@ -1,0 +1,83 @@
+<languageVersion : 1.0;>
+
+kernel untitled
+<   namespace : "Your Namespace";
+    vendor : "Your Vendor";
+    version : 1;
+    
+    
+    
+>
+
+
+{
+    input image4 src;
+    output pixel4 dst;
+    parameter float resolution
+    <       
+        minValue:float(0.);
+        maxValue:float(1920.); 
+        defaultValue:float(1000.);
+    >;
+    
+        
+    parameter float c_real 
+    <       
+        minValue:float(-2.);
+        maxValue:float(2.); 
+        defaultValue:float(0.);
+    >;
+    
+        parameter float c_im 
+    <       
+        minValue:float(-2.);
+        maxValue:float(2.); 
+        defaultValue:float(0.);
+    >;
+            parameter float R_esc 
+    <       
+        minValue:float(0.);
+        maxValue:float(5.); 
+        defaultValue:float(3.9);
+    >;
+            parameter int i_max 
+    <       
+        minValue:int(2);
+        maxValue:int(200); 
+        defaultValue:int(40);
+    >;
+float julia(float2 pos, float2 c, float R_esc, int i_max) {
+
+	//per-pixel cycle
+
+//	float R_esc = 3.9;	
+	float color;
+	//int i_max = 40;
+	
+	for(int i = 0; i < i_max; i++ ) {
+	
+    float xtemp = (pos.x * pos.x - pos.y * pos.y);
+		pos.y = 1. * pos.x * pos.y + c.y;
+		pos.x = xtemp + c.x;
+		
+		if(abs(pos.x * pos.x + pos.y * pos.y) > R_esc * R_esc) {
+			break;
+		}
+    
+		int val = i;
+		color = float(val);
+	}
+	
+	return color;
+}
+    void evaluatePixel()
+    
+    {
+     
+        float2 uv = (outCoord()/resolution);
+        float juliaCoef = julia(uv, float2(c_real,c_im), R_esc, i_max);
+        float juliaCoef2 = julia(uv, float2(c_real/2.,c_im*.7), R_esc, i_max);
+                float juliaCoef3 = julia(uv, float2(c_real/4.,c_im*.5), R_esc, i_max);
+        dst = sampleLinear(src,outCoord()) * float4(juliaCoef,cos(juliaCoef2),sin(juliaCoef3),1.);
+    }
+}
