@@ -1,4 +1,4 @@
-//kinda julia fractal 
+//julia_fractal rotating
 
 setFunction({
   name: 'julia',type: 'coord',
@@ -8,10 +8,11 @@ setFunction({
   ],
   glsl: `
     vec2 c = vec2(cx,cy);
-    vec2 pos = _st;
-    float R_esc = 10.9;
+    c.x = (c.y/c.x)*c.y;
+    vec2 pos = _st * 1.;
+    float R_esc = sin(time/10.)*5.;
     int i_max = 100;
- for(int i = 0; i < 100; i++) {
+ for(int i = 0; i < 9; i++) {
 float xtemp = (pos.x * pos.x - pos.y * pos.y);
 pos.y = 2. * pos.x * pos.y + c.y;
 pos.x = xtemp + c.x;
@@ -26,6 +27,8 @@ if(abs(pos.x * pos.x + pos.y * pos.y) > R_esc * R_esc) {
 	vec2 coord = pos;
   
 
-	return coord;`
+	return pos;`
 })
-osc(10,1,time).julia(Math.sin(time/10),1.).out()
+s0.initCam(1)
+src(s0).out()
+src(s0).julia(.1,.2).rotate(3,1).out()
