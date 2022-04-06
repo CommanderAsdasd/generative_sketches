@@ -1,4 +1,4 @@
-//julia rotating with animated Z
+//mandelbrot_fractal rotating with animated Z
 
 setFunction({
   name: 'julia',type: 'coord',
@@ -28,4 +28,4 @@ if(abs(pos.x * pos.x + pos.y * pos.y) > R_esc * R_esc) {
 s0.initCam(1)
 .out(s1)
 // src(s1)
-osc(Math.sin(time)*10, time,time * .1).julia(() => (2.- (Math.sin(time * 0.01) * Math.sin(time * 0.01))),() => ((-.3 * Math.cos(time * .009))) - 1.5).rotate(Math.sin(time * .1)*.4,Math.cos(time)*.3).out()
+osc(Math.sin(time)*10, time,time * .1).julia(() => ((Math.cos(time * 0.01) * 1. * Math.sin(time * 0.01))),() => ((-.3 * Math.cos(time * .009))) - 1.5).rotate(Math.sin(time * .1)*.4,Math.cos(time)*.3).out()
